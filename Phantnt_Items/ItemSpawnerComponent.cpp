@@ -7,20 +7,18 @@
 #include <random>
 
 mmt_gd::ItemSpawnerComponent::ItemSpawnerComponent(
-    GameObject&        gameObject,
-    size_t             poolSize,
-    sf::RenderWindow&  renderWindow,
+    GameObject& gameObject,
+    size_t poolSize,
+    sf::RenderWindow& renderWindow,
     const std::vector<std::string>& textureFiles,
-    const std::vector<sf::IntRect>&       textureRects,
-    const std::vector<sf::FloatRect>&     colliderRects,
-    const std::vector<float>&             itemMasses,
-    std::vector<float>&             spawnRates,
-    const std::string&                    layerName) :
-IComponent(gameObject),
-m_renderWindow(&renderWindow),
-m_itemPool(poolSize, layerName, renderWindow, colliderRects, textureFiles, textureRects, itemMasses, spawnRates)
-{
-}
+    const std::vector<sf::IntRect>& textureRects,
+    const std::vector<sf::FloatRect>& colliderRects,
+    const std::vector<float>& itemMasses,
+    std::vector<float>& spawnRates,
+    const std::string& layerName) :
+    IComponent(gameObject),
+    m_renderWindow(&renderWindow),
+    m_itemPool(poolSize, layerName, renderWindow, colliderRects, textureFiles, textureRects, itemMasses, spawnRates) {}
 
 void mmt_gd::ItemSpawnerComponent::update(float deltaTime)
 {
@@ -58,6 +56,7 @@ void mmt_gd::ItemSpawnerComponent::spawnItem(sf::Vector2f directionSpeed)
     {
         prepareItem(*item);
 
+        // Slightly randomize the spawn position on the x-axis
         std::random_device rd;
         std::mt19937                    gen(rd());
         std::uniform_int_distribution<> dis(-20, 20);
