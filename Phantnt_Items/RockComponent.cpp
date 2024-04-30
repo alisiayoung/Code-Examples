@@ -4,11 +4,9 @@
 #include "SpriteRenderComponent.hpp"
 #include "RigidBodyComponent.hpp"
 
-mmt_gd::RockComponent::RockComponent(
-    GameObject& gameObject, RigidBodyComponent& rigidBody) : ItemComponent(gameObject, rigidBody)
-{
-    
-}
+mmt_gd::RockComponent::RockComponent(GameObject& gameObject, 
+                                     RigidBodyComponent& rigidBody) : 
+        `                            ItemComponent(gameObject, rigidBody) {}
 
 bool mmt_gd::RockComponent::init()
 {
