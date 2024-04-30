@@ -14,12 +14,12 @@ void mmt_gd::ItemComponent::update(float deltaTime)
 		m_lifetime += deltaTime;
         if (m_lifetime > m_maxLifetime)
         {
-            SetInactive();
+            setInactive();
 		}
 	}
 }
 
-void mmt_gd::ItemComponent::SetInactive()
+void mmt_gd::ItemComponent::setInactive()
 {   
     m_lifetime = 0.0f;
     m_gameObject.setActive(false);
@@ -29,14 +29,14 @@ void mmt_gd::ItemComponent::SetInactive()
     m_gameObject.setPosition(m_spawnPosition);
 }
 
-void mmt_gd::ItemComponent::SetCurrentlyUsed(bool used)
+void mmt_gd::ItemComponent::setCurrentlyUsed(bool used)
 {
     m_currentlyUsed = used;
     if (used)
         m_lifetime = 0.0f;
 }
 
-void mmt_gd::ItemComponent::SetThrown(bool thrown)
+void mmt_gd::ItemComponent::setThrown(bool thrown)
 {
     m_thrown = thrown;
     if (m_thrown)
@@ -53,10 +53,10 @@ bool mmt_gd::ItemComponent::isCurrentlyUsed()
     return m_currentlyUsed;
 }
 
-void mmt_gd::ItemComponent::SetThrowForce(sf::Vector2f force)
+void mmt_gd::ItemComponent::setThrowForce(sf::Vector2f force)
 {
     m_rigidBody.addVelocity(force);
-    SetThrown(true);
+    setThrown(true);
 	m_throwForce = force;
 }
 

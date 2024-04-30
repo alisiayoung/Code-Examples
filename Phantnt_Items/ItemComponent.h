@@ -6,41 +6,41 @@
 
 namespace mmt_gd
 {
-class GameObject;
+    class GameObject;
 
-class ItemComponent : public IComponent
-{
-public:
-    using Ptr = std::shared_ptr<IComponent>;
-
-    ItemComponent(GameObject& gameObject, RigidBodyComponent& rigidBody) :  IComponent(gameObject), m_rigidBody(rigidBody)
+    class ItemComponent : public IComponent
     {
-        m_spawnPosition = m_gameObject.getPosition();
-    }
+    public:
+        using Ptr = std::shared_ptr<IComponent>;
 
-    bool init();
-    void update(float deltaTime);
+        ItemComponent(GameObject& gameObject, RigidBodyComponent& rigidBody) 
+            : IComponent(gameObject), m_rigidBody(rigidBody)
+        {
+            m_spawnPosition = m_gameObject.getPosition();
+        }
 
-    virtual void SetInactive(); //resets the item and lifetime, positions it at the spawn position
-    void SetCurrentlyUsed(bool used);
-    virtual void SetThrown(bool thrown);
-    bool isThrown();
-    bool isCurrentlyUsed();
+        bool init();
+        void update(float deltaTime);
 
-    void SetThrowForce(sf::Vector2f force); 
+        virtual void setInactive(); //resets the item and lifetime, positions it at the spawn position
+        void setCurrentlyUsed(bool used);
+        virtual void setThrown(bool thrown);
+        bool isThrown();
+        bool isCurrentlyUsed();
+        void setThrowForce(sf::Vector2f force); 
 
-    GameObject& getGameObject() const
-    {
-        return m_gameObject;
-    }
+        GameObject& getGameObject() const
+        {
+            return m_gameObject;
+        }
 
-protected:
-    float m_lifetime = 0.0f;
-    float m_maxLifetime = 20.0f;    //items despawn after 20 seconds
-    bool m_currentlyUsed = false;   //stops lifetime from counting down
-    bool m_thrown = false;  //prevents thrown items from being picked up again
-    sf::Vector2f m_spawnPosition;   
-    RigidBodyComponent& m_rigidBody;
-    sf::Vector2f m_throwForce;
-};
+    protected:
+        float m_lifetime = 0.0f;
+        float m_maxLifetime = 20.0f;    //items despawn after 20 seconds
+        bool m_currentlyUsed = false;   //stops lifetime from counting down
+        bool m_thrown = false;          //prevents thrown items from being picked up again
+        sf::Vector2f m_spawnPosition;   
+        RigidBodyComponent& m_rigidBody;
+        sf::Vector2f m_throwForce;
+    };
 } // namespace mmt_gd
