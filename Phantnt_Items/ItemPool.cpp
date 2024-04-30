@@ -30,25 +30,31 @@ mmt_gd::ItemPool::ItemPool(
     std::vector<float> cumulativeSpawnRates;
     std::partial_sum(spawnRates.begin(), spawnRates.end(), std::back_inserter(cumulativeSpawnRates));
 
+    // Random number generation
     std::random_device               rd;
     std::mt19937                     gen(rd());
     std::uniform_real_distribution<> dis(0, 1);
 
+    // Initialize item pool
     for (size_t i = 0; i < size; ++i)
     {
         float randNum = dis(gen);
 
+        // Determine item type based on spawn rates
         size_t itemType = std::distance(cumulativeSpawnRates.begin(),
-                                        std::lower_bound(cumulativeSpawnRates.begin(), cumulativeSpawnRates.end(), randNum));
+                                        std::lower_bound(cumulativeSpawnRates.begin(), 
+                                        cumulativeSpawnRates.end(), 
+                                        randNum));
 
         auto& gameObject = m_pool[i];
-        std::shared_ptr<RigidBodyComponent>    rigidBodyComponent;
+        std::shared_ptr<RigidBodyComponent> rigidBodyComponent;
         auto  fixtureDef = b2FixtureDef{};
         auto circleShape = b2CircleShape{};
 
+        // Create game object based on item type
         switch (itemType)
         {
-            case 0:
+            case 0: // Rock
             {
                 gameObject = std::make_shared<GameObject>("Rock_" + std::to_string(m_globalItemIdx++));
 
@@ -62,13 +68,12 @@ mmt_gd::ItemPool::ItemPool(
                 gameObject->addComponent<RockComponent>(*gameObject, *rigidBodyComponent);
 
                 fixtureDef.density = itemDensities[0];
-
                 circleShape.m_p.Set(0, 0);
                 circleShape.m_radius = 0.5f;
-                fixtureDef.shape     = &circleShape;
+                fixtureDef.shape = &circleShape;
                 break;
             }
-            case 1:
+            case 1: // Bomb
             {
                 gameObject = std::make_shared<GameObject>("Bomb_" + std::to_string(m_globalItemIdx++));
 
@@ -99,10 +104,9 @@ mmt_gd::ItemPool::ItemPool(
                 gameObject->addComponent<BombComponent>(*gameObject, *rigidBodyComponent, 1000.f, 60.f);
 
                 fixtureDef.density = itemDensities[1];
-
                 circleShape.m_p.Set(0, 0);
                 circleShape.m_radius = 0.5f;
-                fixtureDef.shape     = &circleShape;
+                fixtureDef.shape = &circleShape;
 
                 rigidBodyComponent->getB2Body()->SetEnabled(false);
 
@@ -111,7 +115,7 @@ mmt_gd::ItemPool::ItemPool(
         }
 
         fixtureDef.filter.categoryBits = static_cast<int>(CollisionCategories::ITEMS);
-        fixtureDef.filter.maskBits     = 0xFFFF & ~static_cast<int>(CollisionCategories::KILLZONES) &
+        fixtureDef.filter.maskBits = 0xFFFF & ~static_cast<int>(CollisionCategories::KILLZONES) &
                                      ~static_cast<int>(CollisionCategories::COLLIDER) &
                                      ~static_cast<int>(CollisionCategories::ITEMS) &
                                      ~static_cast<int>(CollisionCategories::RIVER);
@@ -125,7 +129,6 @@ mmt_gd::ItemPool::ItemPool(
 
         gameObject->setActive(false);
         EventBus::getInstance().fireEvent(std::make_shared<GameObjectCreateEvent>(gameObject));
-
     }
 
     std::cout << "## pool-size: " << m_pool.size() << std::endl;
