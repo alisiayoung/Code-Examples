@@ -6,7 +6,7 @@
 
 mmt_gd::RockComponent::RockComponent(GameObject& gameObject, 
                                      RigidBodyComponent& rigidBody) : 
-        `                            ItemComponent(gameObject, rigidBody) {}
+                                     ItemComponent(gameObject, rigidBody) {}
 
 bool mmt_gd::RockComponent::init()
 {
