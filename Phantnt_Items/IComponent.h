@@ -4,32 +4,30 @@
 
 namespace mmt_gd
 {
-class GameObject;
+    class GameObject;
 
-class IComponent
-{
-public:
-    using Ptr = std::shared_ptr<IComponent>;
-
-    explicit IComponent(GameObject& gameObject) : m_gameObject(gameObject)
+    class IComponent
     {
-    }
+    public:
+        using Ptr = std::shared_ptr<IComponent>;
 
-    virtual ~IComponent()                     = default;
-    IComponent(IComponent& other)             = default;
-    IComponent(IComponent&& other)            = default;
-    IComponent& operator=(IComponent& other)  = delete;
-    IComponent& operator=(IComponent&& other) = delete;
+        explicit IComponent(GameObject& gameObject) : m_gameObject(gameObject) {}
 
-    virtual bool init()                  = 0;
-    virtual void update(float deltaTime) = 0;
+        virtual ~IComponent() = default;
+        IComponent(IComponent& other) = default;
+        IComponent(IComponent&& other) = default;
+        IComponent& operator=(IComponent& other) = delete;
+        IComponent& operator=(IComponent&& other) = delete;
 
-    GameObject& getGameObject() const
-    {
-        return m_gameObject;
-    }
+        virtual bool init() = 0;
+        virtual void update(float deltaTime) = 0;
 
-protected:
-    GameObject& m_gameObject;
-};
+        GameObject& getGameObject() const
+        {
+            return m_gameObject;
+        }
+
+    protected:
+        GameObject& m_gameObject;
+    };
 } // namespace mmt_gd
