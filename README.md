@@ -13,5 +13,9 @@ I kept the Rock Component quite simple. All the rock does, is pushing a player. 
 
 ### BombComponent
 The Bomb Component is more complex in every way. Bombs are animated, they have a sound and there are multiple outcomes of collision between bombs and the players.
-I register an OnCollision function when a BombComponent is initialized. 
-The bomb isn't meant to push a player away like the rock does. Instead, it just landds wherever it collided with a player. After a short amount of time the bomb explodes and any player within proximity is yeeted away. The collision for this is handled in the handleExplosion function.
+
+I register an OnCollision function when a BombComponent is initialized (Line 27 in BombComponent.cpp). 
+The bomb isn't meant to push a player away like the rock does. Instead, it just landds wherever it collided with a player. After a short amount of time the bomb explodes and any player within proximity is yeeted away. The collision for this is handled in the handleExplosion function (Line 116 in BombComponent.cpp).
+
+### ItemPool
+The item pool holds all items and creates them depending on the type of item. The item pool itself is created through the item spawner.
